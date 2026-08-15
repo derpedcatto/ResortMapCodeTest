@@ -1,3 +1,3 @@
 ﻿namespace ResortMap.Server.Models;
 
-public record BookedCabana(int[][] Coords, Booking Booking);
+public record BookedCabana(MapCoords Coords, Booking Booking);

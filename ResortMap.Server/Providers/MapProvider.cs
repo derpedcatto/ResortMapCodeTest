@@ -6,27 +6,17 @@ namespace ResortMap.Server.Providers;
 
 public interface IMapProvider
 {
-    Map GetMap();
+    string[] GetMapData();
 }
 
 public class MapProvider : IMapProvider
 {
-    private readonly Map _map;
+    private readonly string[] _mapData;
 
     public MapProvider(IOptions<DataFileOptions> options)
     {
-        _map = Parse(File.ReadAllLines(options.Value.Map));
+        _mapData = File.ReadAllLines(options.Value.Map);
     }
 
-    public Map GetMap() => _map;
-
-    private static Map Parse(string[] lines)
-    {
-        var grid = lines
-            .Select(line => line.Trim())
-            .Where(line => line.Length > 0)
-            .ToArray();
-
-        return new Map(grid);
-    }
+    public string[] GetMapData() => _mapData;
 }

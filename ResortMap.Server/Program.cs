@@ -1,3 +1,4 @@
+using ResortMap.Server.Handlers;
 using ResortMap.Server.Options;
 using ResortMap.Server.Providers;
 
@@ -16,6 +17,8 @@ builder.Services
 
 builder.Services.AddSingleton<IMapProvider, MapProvider>();
 builder.Services.AddSingleton<IBookingProvider, BookingProvider>();
+builder.Services.AddScoped<IMapHandler, MapHandler>();
+builder.Services.AddScoped<IBookingHandler, BookingHandler>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -27,7 +30,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 

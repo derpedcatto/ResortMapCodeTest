@@ -7,12 +7,15 @@ namespace ResortMap.Server.Providers;
 
 public interface IBookingProvider
 {
-    bool IsBookingAvailable(Booking booking);
+    IReadOnlyList<Booking> GetBookings();
+    IReadOnlyList<BookedCabana> GetBookedCabanas();
+    void AddBookedCabana(BookedCabana cabana);
 }
 
 public class BookingProvider : IBookingProvider
 {
-    private Booking[] _bookings;
+    private readonly Booking[] _bookings;
+    private readonly List<BookedCabana> _bookedCabanas = [];
 
     public BookingProvider(IOptions<DataFileOptions> options)
     {
@@ -20,8 +23,11 @@ public class BookingProvider : IBookingProvider
         _bookings = JsonSerializer.Deserialize<Booking[]>(json) ?? [];
     }
 
-    public bool IsBookingAvailable(Booking booking)
+    public IReadOnlyList<Booking> GetBookings() => _bookings;
+    public IReadOnlyList<BookedCabana> GetBookedCabanas() => _bookedCabanas;
+
+    public void AddBookedCabana(BookedCabana cabana)
     {
-        return true;
+        _bookedCabanas.Add(cabana);
     }
 }
