@@ -1,4 +1,4 @@
-﻿namespace ResortMap.Server.Options;
+﻿namespace ResortMap.Server.Common;
 
 public sealed class DataFileOptions
 {

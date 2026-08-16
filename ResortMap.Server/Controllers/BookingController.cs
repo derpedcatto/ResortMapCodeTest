@@ -3,12 +3,13 @@ using ResortMap.Server.Handlers;
 using ResortMap.Server.Models;
 
 namespace ResortMap.Server.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class BookingController(IBookingHandler bookingHandler) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<List<MapCoords>> GetAllBookedCabanas()
+    public ActionResult<IReadOnlyList<MapCoords>> GetAllBookedCabanas()
     {
         return Ok(bookingHandler.GetAllBookedCabanas());
     }
@@ -16,7 +17,10 @@ public class BookingController(IBookingHandler bookingHandler) : ControllerBase
     [HttpPost]
     public ActionResult AddBookedCabana([FromBody] BookedCabana cabana)
     {
-        bookingHandler.AddBookedCabana(cabana);
-        return Ok();
+        var result = bookingHandler.AddBookedCabana(cabana);
+        
+        return result.IsSuccess
+            ? Ok()
+            : BadRequest(result.ErrorBody);
     }
 }

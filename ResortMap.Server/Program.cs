@@ -1,5 +1,5 @@
+using ResortMap.Server.Common;
 using ResortMap.Server.Handlers;
-using ResortMap.Server.Options;
 using ResortMap.Server.Providers;
 
 var builder = WebApplication.CreateBuilder(args);

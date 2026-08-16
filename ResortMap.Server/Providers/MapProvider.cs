@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.Options;
-using ResortMap.Server.Models;
-using ResortMap.Server.Options;
+using ResortMap.Server.Common;
 
 namespace ResortMap.Server.Providers;
 
 public interface IMapProvider
 {
-    string[] GetMapData();
+    string[]? GetMapData();
 }
 
 public class MapProvider : IMapProvider
 {
-    private readonly string[] _mapData;
+    private readonly string[]? _mapData;
 
     public MapProvider(IOptions<DataFileOptions> options)
     {
-        _mapData = File.ReadAllLines(options.Value.Map);
+        var path = options.Value.Map;
+        _mapData = File.Exists(path) ? File.ReadAllLines(path) : null;
     }
 
-    public string[] GetMapData() => _mapData;
+    public string[]? GetMapData() => _mapData;
 }

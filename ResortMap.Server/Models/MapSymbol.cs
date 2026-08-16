@@ -1,4 +1,4 @@
-﻿namespace ResortMap.Server.Constants;
+﻿namespace ResortMap.Server.Models;
 
 public static class MapSymbol
 {
@@ -9,4 +9,15 @@ public static class MapSymbol
     public const char EmptySpace = '.';
 
     public static bool IsValid(char symbol) => symbol is Cabana or Pool or Path or Chalet or EmptySpace;
+
+    public static bool HasIllegalSymbols(string[] map)
+    {
+        foreach (var row in map)
+        {
+            if (string.IsNullOrEmpty(row)|| row.Any(s => !MapSymbol.IsValid(s)))
+                return true;
+        }
+
+        return false;
+    }
 }
