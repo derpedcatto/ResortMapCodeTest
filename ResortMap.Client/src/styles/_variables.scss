@@ -1,0 +1,18 @@
+$breakpoints: (
+  sm: 576px,
+  md: 744px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+$max-container-width: 1280px;
+
+$gutters: (
+  base: 16px,
+  sm: 24px,
+  xl: 40px,
+);
+
+$transition-duration: 0.15s;
+$icon-hover-scale: 1.2;
+$image-hover-scale: 1.1;
