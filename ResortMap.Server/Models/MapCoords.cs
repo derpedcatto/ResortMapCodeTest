@@ -1,3 +1,5 @@
-﻿namespace ResortMap.Server.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record MapCoords(int Row, int Col);
+namespace ResortMap.Server.Models;
+
+public record MapCoords([property: Required] int? Row, [property: Required]int? Col);

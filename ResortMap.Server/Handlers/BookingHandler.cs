@@ -67,25 +67,31 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
 
     private Result ValidateCabanaCoords(MapCoords coords)
     {
-        var mapResult = mapHandler.GetMap();
+        if (coords.Row == null || coords.Col == null)
+        {
+            return Result.Failure(ErrorCode.CabanaCoordsInvalid);
+        }
 
+        var mapResult = mapHandler.GetMap();
         if (!mapResult.IsSuccess)
         {
             return Result.Failure(mapResult.Error!.Value);
         }
 
         var grid = mapResult.Value!.Grid;
+        var coordsRow = coords.Row.Value;
+        var coordsCol = coords.Col.Value;
 
-        if (coords.Row < 0 || coords.Row >= grid.Length)
+        if (coordsRow < 0 || coordsRow >= grid.Length)
         {
             return Result.Failure(ErrorCode.CabanaCoordsInvalid);
         }
 
-        var row = grid[coords.Row];
+        var gridRow = grid[coordsCol];
 
-        if (row == null
-            || (coords.Col < 0 || coords.Col >= row.Length)
-            || row[coords.Col] != MapSymbol.Cabana)
+        if (gridRow == null
+            || coordsCol < 0 || coordsCol >= gridRow.Length
+            || gridRow[coordsCol] != MapSymbol.Cabana)
         {
             return Result.Failure(ErrorCode.CabanaCoordsInvalid);
         }
