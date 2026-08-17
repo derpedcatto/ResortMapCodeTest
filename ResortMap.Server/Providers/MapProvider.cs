@@ -5,18 +5,17 @@ namespace ResortMap.Server.Providers;
 
 public interface IMapProvider
 {
-    string[]? GetMapData();
+    string[] GetMapData();
 }
 
 public class MapProvider : IMapProvider
 {
-    private readonly string[]? _mapData;
+    private readonly string[] _mapData;
 
     public MapProvider(IOptions<DataFileOptions> options)
     {
-        var path = options.Value.Map;
-        _mapData = File.Exists(path) ? File.ReadAllLines(path) : null;
+        _mapData = File.ReadAllLines(options.Value.Map);
     }
 
-    public string[]? GetMapData() => _mapData;
+    public string[] GetMapData() => _mapData;
 }

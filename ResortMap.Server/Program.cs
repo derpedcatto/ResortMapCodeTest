@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using ResortMap.Server.Common;
 using ResortMap.Server.Handlers;
 using ResortMap.Server.Providers;
@@ -30,7 +31,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-// app.UseHttpsRedirection();
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
@@ -40,4 +40,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (OptionsValidationException ex)
+{
+    var logger = app.Services.GetService<ILogger<Program>>();
+    logger?.LogCritical(ex, "Application startup failed");
+    Console.Error.WriteLine($"Startup failed: {ex.Message}");
+
+    Environment.ExitCode = 1;
+}

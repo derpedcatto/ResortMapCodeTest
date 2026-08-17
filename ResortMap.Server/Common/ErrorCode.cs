@@ -7,12 +7,8 @@ public enum ErrorCode
     CabanaCoordsInvalid,
     InvalidBookingRequest,
 
-    MapFileNotFound,
-    BookingFileNotFound,
     MapFileInvalid,
     BookingFileInvalid,
-    MapFileNotPermitted,
-    BookingFileNotPermitted,
 }
 
 public static class ErrorCodeExtensions
@@ -24,13 +20,9 @@ public static class ErrorCodeExtensions
         ErrorCode.CabanaCoordsInvalid => "Cabana coordinates are invalid.",
         ErrorCode.InvalidBookingRequest => "Booking request is invalid.",
 
-        ErrorCode.MapFileNotFound => "Resort map could not be loaded.",
-        ErrorCode.BookingFileNotFound => "Booking list could not be loaded.",
         ErrorCode.MapFileInvalid => "Resort map is invalid.",
         ErrorCode.BookingFileInvalid => "Booking file is invalid.",
-        ErrorCode.MapFileNotPermitted => "Resort map file is not permitted.",
-        ErrorCode.BookingFileNotPermitted => "Booking file is not permitted.",
 
-        _ => throw new NotImplementedException(),
+        _ => throw new ArgumentOutOfRangeException(nameof(code), code, "Unmapped error code."),
     };
 }

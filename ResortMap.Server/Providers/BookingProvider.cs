@@ -7,27 +7,36 @@ namespace ResortMap.Server.Providers;
 
 public interface IBookingProvider
 {
-    Result<IReadOnlyList<Booking>> GetBookings();
+    IReadOnlyList<Booking> GetBookings();
     IReadOnlyList<BookedCabana> GetBookedCabanas();
-    void AddBookedCabana(BookedCabana cabana);
+    bool TryAddBookedCabana(BookedCabana cabana);
 }
 
 public class BookingProvider : IBookingProvider
 {
-    private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web);
+    private static readonly JsonSerializerOptions _jsonOptions = 
+        new(JsonSerializerDefaults.Web);
     private readonly Lock _sync = new();
 
-    private readonly Result<IReadOnlyList<Booking>> _bookings;
+    private readonly IReadOnlyList<Booking> _bookings;
     private readonly List<BookedCabana> _bookedCabanas = [];
 
     public BookingProvider(IOptions<DataFileOptions> options)
     {
-        var path = options.Value.Bookings;
-
-        _bookings = ReadBookingsFile(path);
+        try
+        {
+            using var stream = File.OpenRead(options.Value.Bookings);
+            _bookings = JsonSerializer.Deserialize<Booking[]>(stream, _jsonOptions)
+                ?? throw new InvalidOperationException("Bookings file deserialized to null.");
+        }
+        catch (JsonException ex)
+        {
+            throw new InvalidOperationException(
+                $"Bookings file is not valid JSON: {options.Value.Bookings}", ex);
+        }
     }
 
-    public Result<IReadOnlyList<Booking>> GetBookings() => _bookings;
+    public IReadOnlyList<Booking> GetBookings() => _bookings;
 
     public IReadOnlyList<BookedCabana> GetBookedCabanas()
     {
@@ -37,53 +46,15 @@ public class BookingProvider : IBookingProvider
         }
     }
 
-    public void AddBookedCabana(BookedCabana cabana)
+    public bool TryAddBookedCabana(BookedCabana cabana)
     {
         lock (_sync)
         {
+            if (_bookedCabanas.Any(bc => bc.Coords.Equals(cabana.Coords)))
+                return false;
+
             _bookedCabanas.Add(cabana);
-        }
-    }
-
-    private static Result<IReadOnlyList<Booking>> ReadBookingsFile(string path)
-    {
-        try
-        {
-            using var stream = File.OpenRead(path);
-            var bookings = JsonSerializer.Deserialize<Booking[]>(stream, _jsonOptions);
-
-            if (bookings == null)
-            {
-                return Result<IReadOnlyList<Booking>>
-                    .Failure(ErrorCode.BookingFileInvalid);
-            }
-            
-            return Result<IReadOnlyList<Booking>>.Success(bookings);
-        }
-        catch (FileNotFoundException)
-        {
-            return Result<IReadOnlyList<Booking>>
-                .Failure(ErrorCode.BookingFileNotFound);
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return Result<IReadOnlyList<Booking>>
-                .Failure(ErrorCode.BookingFileNotPermitted);
-        }
-        catch (IOException)
-        {
-            return Result<IReadOnlyList<Booking>>
-                .Failure(ErrorCode.BookingFileNotFound);
-        }
-        catch (JsonException)
-        {
-            return Result<IReadOnlyList<Booking>>
-                .Failure(ErrorCode.BookingFileInvalid);
-        }
-        catch (Exception)
-        {
-            return Result<IReadOnlyList<Booking>>
-                .Failure(ErrorCode.BookingFileNotFound);
+            return true;
         }
     }
 }

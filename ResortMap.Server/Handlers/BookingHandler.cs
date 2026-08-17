@@ -39,13 +39,9 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
             return bookingResult;
         }
 
-        if (IsCabanaBooked(cabana.Coords))
-        {
-            return Result.Failure(ErrorCode.CabanaAlreadyBooked);
-        }
-
-        bookingProvider.AddBookedCabana(cabana);
-        return Result.Success();
+        return bookingProvider.TryAddBookedCabana(cabana)
+            ? Result.Success()
+            : Result.Failure(ErrorCode.CabanaAlreadyBooked);
     }
 
     private static bool IsRequestValid(BookedCabana? cabana)
@@ -59,30 +55,14 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
             && !string.IsNullOrWhiteSpace(cabana.Booking.GuestName);
     }
 
-    private bool IsCabanaBooked(MapCoords coords)
-    {
-        return bookingProvider.GetBookedCabanas()
-            .Any(bookedCabana => bookedCabana.Coords.Equals(coords));
-    }
-
     private Result ValidateBooking(Booking booking)
     {
-        var bookingsResult = bookingProvider.GetBookings();
-
-        if (!bookingsResult.IsSuccess)
-        {
-            return Result.Failure(bookingsResult.Error!.Value);
-        }
-
-        var bookingExists = bookingsResult.Value!
+        var bookingExists = bookingProvider.GetBookings()
             .Any(storedBooking => BookingsMatch(storedBooking, booking));
 
-        if (!bookingExists)
-        {
-            return Result.Failure(ErrorCode.BookingNotFound);
-        }
-
-        return Result.Success();
+        return bookingExists
+            ? Result.Success()
+            : Result.Failure(ErrorCode.BookingNotFound);
     }
 
     private Result ValidateCabanaCoords(MapCoords coords)
@@ -110,16 +90,16 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
             return Result.Failure(ErrorCode.CabanaCoordsInvalid);
         }
 
-        if (grid[coords.Row][coords.Col] != MapSymbol.Cabana)
-        {
-            return Result.Failure(ErrorCode.CabanaCoordsInvalid);
-        }
-
         return Result.Success();
     }
 
     private static bool BookingsMatch(Booking storedBooking, Booking requestedBooking)
     {
+        if (storedBooking?.Room == null || storedBooking.GuestName == null)
+        {
+            return false;
+        }
+
         var roomsMatch = string.Equals(
             storedBooking.Room.Trim(),
             requestedBooking.Room.Trim(),

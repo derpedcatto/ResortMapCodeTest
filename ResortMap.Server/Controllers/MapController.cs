@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ResortMap.Server.Common;
 using ResortMap.Server.Handlers;
 using ResortMap.Server.Models;
 
@@ -10,7 +9,7 @@ namespace ResortMap.Server.Controllers;
 public class MapController(IMapHandler mapHandler) : ControllerBase
 {
     [HttpGet]
-    public ActionResult<Result<Map>> Get()
+    public ActionResult<Map> Get()
     {
         var result = mapHandler.GetMap();
 
