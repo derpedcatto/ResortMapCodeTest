@@ -12,14 +12,6 @@ public sealed record Result
 
     public static Result Success() => new();
     public static Result Failure(ErrorCode error) => new(error);
-
-    // usage only in controllers to pass error body without VS editor warnings
-    [JsonIgnore]
-    public object ErrorBody => new
-    {
-        errorCode = Error!.Value.ToString(),
-        message = Error!.Value.ToMessage(),
-    };
 }
 
 public sealed record Result<T>
@@ -33,12 +25,4 @@ public sealed record Result<T>
 
     public static Result<T> Success(T value) => new(value);
     public static Result<T> Failure(ErrorCode error) => new(error);
-
-    // usage only in controllers to pass error body without VS editor warnings
-    [JsonIgnore]
-    public object ErrorBody => new
-    {
-        errorCode = Error!.Value.ToString(),
-        message = Error!.Value.ToMessage(),
-    };
 }

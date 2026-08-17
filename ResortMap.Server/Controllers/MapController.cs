@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ResortMap.Server.Common;
 using ResortMap.Server.Handlers;
 using ResortMap.Server.Models;
 
@@ -15,6 +16,6 @@ public class MapController(IMapHandler mapHandler) : ControllerBase
 
         return result.IsSuccess 
             ? Ok(result.Value) 
-            : BadRequest(result.ErrorBody);
+            : BadRequest(result.Error!.Value.ToApiError());
     }
 }

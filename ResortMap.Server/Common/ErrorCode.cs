@@ -11,6 +11,8 @@ public enum ErrorCode
     BookingFileInvalid,
 }
 
+public sealed record ApiErrorResponse(string ErrorCode, string Message);
+
 public static class ErrorCodeExtensions
 {
     public static string ToMessage(this ErrorCode code) => code switch
@@ -25,4 +27,7 @@ public static class ErrorCodeExtensions
 
         _ => throw new ArgumentOutOfRangeException(nameof(code), code, "Unmapped error code."),
     };
+
+    public static ApiErrorResponse ToApiError(this ErrorCode code)
+        => new(code.ToString(), code.ToMessage());
 }
