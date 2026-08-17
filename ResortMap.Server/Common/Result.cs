@@ -1,4 +1,6 @@
-﻿namespace ResortMap.Server.Common;
+﻿using System.Text.Json.Serialization;
+
+namespace ResortMap.Server.Common;
 
 public sealed record Result
 {
@@ -10,8 +12,9 @@ public sealed record Result
 
     public static Result Success() => new();
     public static Result Failure(ErrorCode error) => new(error);
-    
+
     // usage only in controllers to pass error body without VS editor warnings
+    [JsonIgnore]
     public object ErrorBody => new
     {
         errorCode = Error!.Value.ToString(),
@@ -32,6 +35,7 @@ public sealed record Result<T>
     public static Result<T> Failure(ErrorCode error) => new(error);
 
     // usage only in controllers to pass error body without VS editor warnings
+    [JsonIgnore]
     public object ErrorBody => new
     {
         errorCode = Error!.Value.ToString(),

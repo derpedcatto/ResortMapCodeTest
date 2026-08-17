@@ -15,7 +15,7 @@ public class MapController(IMapHandler mapHandler) : ControllerBase
         var result = mapHandler.GetMap();
 
         return result.IsSuccess 
-            ? Ok(result) 
+            ? Ok(result.Value) 
             : BadRequest(result.ErrorBody);
     }
 }
