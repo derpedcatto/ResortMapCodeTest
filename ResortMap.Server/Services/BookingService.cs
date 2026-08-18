@@ -2,7 +2,7 @@
 using ResortMap.Server.Models;
 using ResortMap.Server.Providers;
 
-namespace ResortMap.Server.Handlers;
+namespace ResortMap.Server.Services;
 
 public interface IBookingHandler
 {
@@ -10,7 +10,7 @@ public interface IBookingHandler
     Result AddBookedCabana(BookedCabana cabana);
 }
 
-public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHandler)
+public class BookingService(IBookingProvider bookingProvider, IMapHandler mapHandler)
     : IBookingHandler
 {
     public IReadOnlyList<MapCoords> GetAllBookedCabanas()

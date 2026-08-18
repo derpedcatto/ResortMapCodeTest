@@ -2,14 +2,14 @@
 using ResortMap.Server.Models;
 using ResortMap.Server.Providers;
 
-namespace ResortMap.Server.Handlers;
+namespace ResortMap.Server.Services;
 
 public interface IMapHandler
 {
     Result<Map> GetMap();
 }
 
-public class MapHandler(IMapProvider mapProvider) : IMapHandler
+public class MapService(IMapProvider mapProvider) : IMapHandler
 {
     public Result<Map> GetMap()
     {

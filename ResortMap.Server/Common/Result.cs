@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ResortMap.Server.Common;
 
@@ -25,4 +25,29 @@ public sealed record Result<T>
 
     public static Result<T> Success(T value) => new(value);
     public static Result<T> Failure(ErrorCode error) => new(error);
+}
+
+public static class ResultExtensions
+{
+    public static ActionResult ToActionResult(this Result result)
+    {
+        if (result.IsSuccess)
+        {
+            return new OkResult();
+        }
+
+        var problem = result.Error!.Value.ToProblemDetails();
+        return new ObjectResult(problem) { StatusCode = problem.Status };
+    }
+
+    public static ActionResult ToActionResult<T>(this Result<T> result)
+    {
+        if (result.IsSuccess)
+        {
+            return new OkObjectResult(result.Value);
+        }
+
+        var problem = result.Error!.Value.ToProblemDetails();
+        return new ObjectResult(problem) { StatusCode = problem.Status };
+    }
 }

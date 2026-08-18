@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ResortMap.Server.Common;
-using ResortMap.Server.Handlers;
 using ResortMap.Server.Models;
+using ResortMap.Server.Services;
 
 namespace ResortMap.Server.Controllers;
 
@@ -18,23 +18,6 @@ public class BookingController(IBookingHandler bookingHandler) : ControllerBase
     [HttpPost]
     public ActionResult AddBookedCabana([FromBody] BookedCabana cabana)
     {
-        var result = bookingHandler.AddBookedCabana(cabana);
-
-        if (result.IsSuccess)
-        {
-            return Ok(new { });
-        }
-
-        var errorCode = result.Error!.Value;
-        var error = errorCode.ToApiError();
-
-        if (errorCode == ErrorCode.MapFileInvalid ||
-            errorCode == ErrorCode.BookingFileInvalid)
-        {
-            return StatusCode(500, error);
-        }
-
-        return BadRequest(error);
-
+        return bookingHandler.AddBookedCabana(cabana).ToActionResult();
     }
 }

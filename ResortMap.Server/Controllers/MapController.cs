@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ResortMap.Server.Common;
-using ResortMap.Server.Handlers;
 using ResortMap.Server.Models;
+using ResortMap.Server.Services;
 
 namespace ResortMap.Server.Controllers;
 
@@ -12,10 +12,6 @@ public class MapController(IMapHandler mapHandler) : ControllerBase
     [HttpGet]
     public ActionResult<Map> Get()
     {
-        var result = mapHandler.GetMap();
-
-        return result.IsSuccess 
-            ? Ok(result.Value) 
-            : BadRequest(result.Error!.Value.ToApiError());
+        return mapHandler.GetMap().ToActionResult();
     }
 }

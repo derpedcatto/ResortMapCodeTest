@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using ResortMap.Server.Common;
-using ResortMap.Server.Handlers;
 using ResortMap.Server.Providers;
+using ResortMap.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +18,11 @@ builder.Services
 
 builder.Services.AddSingleton<IMapProvider, MapProvider>();
 builder.Services.AddSingleton<IBookingProvider, BookingProvider>();
-builder.Services.AddScoped<IMapHandler, MapHandler>();
-builder.Services.AddScoped<IBookingHandler, BookingHandler>();
+builder.Services.AddScoped<IMapHandler, MapService>();
+builder.Services.AddScoped<IBookingHandler, BookingService>();
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
@@ -35,6 +38,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
