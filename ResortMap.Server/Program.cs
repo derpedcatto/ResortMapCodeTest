@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using ResortMap.Server.Common;
 using ResortMap.Server.Handlers;
@@ -21,7 +22,17 @@ builder.Services.AddSingleton<IBookingProvider, BookingProvider>();
 builder.Services.AddScoped<IMapHandler, MapHandler>();
 builder.Services.AddScoped<IBookingHandler, BookingHandler>();
 
-builder.Services.AddControllers();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = _ =>
+            new ObjectResult(Error.InvalidRequest.ToApiError())
+            { StatusCode = 400 };
+    });
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -35,6 +46,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 

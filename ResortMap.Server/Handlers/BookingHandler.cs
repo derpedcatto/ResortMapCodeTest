@@ -24,7 +24,7 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
     {
         if (!IsRequestValid(cabana))
         {
-            return Result.Failure(ErrorCode.InvalidBookingRequest);
+            return Result.Failure(Error.InvalidBookingRequest);
         }
 
         var coordsResult = ValidateCabanaCoords(cabana.Coords);
@@ -41,7 +41,7 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
 
         return bookingProvider.TryAddBookedCabana(cabana)
             ? Result.Success()
-            : Result.Failure(ErrorCode.CabanaAlreadyBooked);
+            : Result.Failure(Error.CabanaAlreadyBooked);
     }
 
     private static bool IsRequestValid(BookedCabana? cabana)
@@ -62,14 +62,14 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
 
         return bookingExists
             ? Result.Success()
-            : Result.Failure(ErrorCode.BookingNotFound);
+            : Result.Failure(Error.BookingNotFound);
     }
 
     private Result ValidateCabanaCoords(MapCoords coords)
     {
         if (coords.Row == null || coords.Col == null)
         {
-            return Result.Failure(ErrorCode.CabanaCoordsInvalid);
+            return Result.Failure(Error.CabanaCoordsInvalid);
         }
 
         var mapResult = mapHandler.GetMap();
@@ -84,7 +84,7 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
 
         if (coordsRow < 0 || coordsRow >= grid.Length)
         {
-            return Result.Failure(ErrorCode.CabanaCoordsInvalid);
+            return Result.Failure(Error.CabanaCoordsInvalid);
         }
 
         var gridRow = grid[coordsCol];
@@ -93,7 +93,7 @@ public class BookingHandler(IBookingProvider bookingProvider, IMapHandler mapHan
             || coordsCol < 0 || coordsCol >= gridRow.Length
             || gridRow[coordsCol] != MapSymbol.Cabana)
         {
-            return Result.Failure(ErrorCode.CabanaCoordsInvalid);
+            return Result.Failure(Error.CabanaCoordsInvalid);
         }
 
         return Result.Success();

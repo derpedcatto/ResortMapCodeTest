@@ -16,7 +16,7 @@ public class MapHandler(IMapProvider mapProvider) : IMapHandler
         var mapData = mapProvider.GetMapData();
 
         if (mapData.Length == 0)
-            return Result<Map>.Failure(ErrorCode.MapFileInvalid);
+            return Result<Map>.Failure(Error.MapFileInvalid);
 
         var grid = mapData
             .Select(row => row.Trim())
@@ -24,7 +24,7 @@ public class MapHandler(IMapProvider mapProvider) : IMapHandler
             .ToArray();
 
         if (grid.Length == 0 || MapSymbol.HasIllegalSymbols(grid))
-            return Result<Map>.Failure(ErrorCode.MapFileInvalid);
+            return Result<Map>.Failure(Error.MapFileInvalid);
 
         return Result<Map>.Success(new Map(grid));
     }

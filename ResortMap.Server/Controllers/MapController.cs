@@ -12,10 +12,6 @@ public class MapController(IMapHandler mapHandler) : ControllerBase
     [HttpGet]
     public ActionResult<Map> Get()
     {
-        var result = mapHandler.GetMap();
-
-        return result.IsSuccess 
-            ? Ok(result.Value) 
-            : BadRequest(result.Error!.Value.ToApiError());
+        return mapHandler.GetMap().ToActionResult();
     }
 }
