@@ -1,7 +1,5 @@
-export type ApiErrorCode =
-  | "CabanaAlreadyBooked"
-  | "BookingNotFound"
-  | "CabanaCoordsInvalid"
-  | "InvalidBookingRequest"
-  | "MapFileInvalid"
-  | "BookingFileInvalid";
+export type ApiProblem = {
+  title: string;
+  status: number;
+  detail?: string;
+};

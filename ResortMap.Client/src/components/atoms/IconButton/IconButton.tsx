@@ -1,0 +1,1 @@
+// control button for map (+, -, ...)
