@@ -1,4 +1,8 @@
-import type { ApiProblem } from "@/types/api";
+export type ApiProblem = {
+  title: string;
+  status: number;
+  detail?: string;
+};
 
 export class ApiError extends Error {
   status: number;

@@ -1,5 +1,4 @@
-import type { ApiProblem } from "@/types/api";
-import { ApiError } from "./apiError";
+import { ApiError, type ApiProblem } from "./apiError";
 
 type RequestOptions = {
   method?: string;
