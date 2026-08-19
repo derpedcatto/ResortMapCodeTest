@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchBookedCabanas, addBooking } from "@/api/bookingApi";
-import type { AddBookingRequest } from "@/types/map";
+import type { AddBookingRequest } from "@/types/booking";
 
 const bookedCabanasKey = ["bookedCabanas"];
 
