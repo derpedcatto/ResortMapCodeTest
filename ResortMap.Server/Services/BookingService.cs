@@ -87,7 +87,7 @@ public class BookingService(IBookingProvider bookingProvider, IMapHandler mapHan
             return Result.Failure(ErrorCode.CabanaCoordsInvalid);
         }
 
-        var gridRow = grid[coordsCol];
+        var gridRow = grid[coordsRow];
 
         if (gridRow == null
             || coordsCol < 0 || coordsCol >= gridRow.Length
