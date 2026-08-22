@@ -1,11 +1,11 @@
-import type { ResortMapGridCoords } from "@/types/map";
-import type { AddBookingRequest } from "@/types/booking";
+import type { GridCoords } from "@/types/map";
 import { apiRequest } from "./apiClient";
+import type { AddBookingRequest } from "@/types/booking";
 
 export function fetchBookedCabanas(
   signal?: AbortSignal,
-): Promise<ResortMapGridCoords[]> {
-  return apiRequest<ResortMapGridCoords[]>("/api/booking", { signal });
+): Promise<GridCoords[]> {
+  return apiRequest<GridCoords[]>("/api/booking", { signal });
 }
 
 export function addBooking(request: AddBookingRequest): Promise<void> {
