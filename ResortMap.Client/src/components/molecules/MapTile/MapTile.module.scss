@@ -1,0 +1,69 @@
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+
+  &:is(:hover, :focus-visible) {
+    z-index: 2;
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &.pool {
+    overflow: hidden;
+
+    &.openTop.openLeft {
+      border-start-start-radius: $border-radius;
+    }
+    &.openTop.openRight {
+      border-start-end-radius: $border-radius;
+    }
+    &.openBottom.openRight {
+      border-end-end-radius: $border-radius;
+    }
+    &.openBottom.openLeft {
+      border-end-start-radius: $border-radius;
+    }
+  }
+}
+
+.tooltip {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity $transition-duration ease-out,
+    visibility $transition-duration;
+}
+
+.cabana {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid black;
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    &:hover .sprite {
+      transform: scale($image-hover-scale);
+    }
+  }
+
+  &.booked {
+    cursor: not-allowed;
+
+    .sprite {
+      filter: grayscale(1);
+      opacity: 0.5;
+      transform: none;
+    }
+  }
+}

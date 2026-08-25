@@ -19,8 +19,9 @@ export function decodeVisualGrid(grid: TileGrid) {
 
       const result: VisualTile = {
         type: tile,
-        rotation: 0,
+        coords: { row, col },
         key: cellKey({ row, col }),
+        rotation: 0,
         sprite: "empty",
       };
 
