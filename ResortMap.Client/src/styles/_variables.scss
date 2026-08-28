@@ -7,14 +7,17 @@ $breakpoints: (
 
 $max-container-width: 1280px;
 
-$gutters: (
-  base: 16px,
-  sm: 24px,
-  xl: 40px,
-);
-
 $border-radius: 10px;
 
 $transition-duration: 0.15s;
-$icon-hover-scale: 1.2;
-$image-hover-scale: 1.1;
+$icon-hover-scale: 1.1;
+
+$color-primary: #2f27ce;
+$color-secondary: #dedcff;
+$color-accent: #433bff;
+$color-background: #fbfbfe;
+$color-text: #050315;
+$color-border: #050315;
+$color-map-background: #ffe5b2;
+$color-map-pool-overlay: rgba(100, 180, 230, 0.25);
+$color-map-pool-border: rgba(44, 34, 228, 0.723);

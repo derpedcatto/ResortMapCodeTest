@@ -20,7 +20,7 @@ export type TileEdges = {
 export type VisualTile = {
   type: TileType;
   coords: GridCoords;
-  key: string;
+  key: CellKey;
   sprite: SpriteKey;
   rotation: SpriteRotation;
   edges?: TileEdges;

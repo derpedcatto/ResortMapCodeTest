@@ -1,0 +1,38 @@
+.resortMap {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+
+  .viewport {
+    position: relative;
+    overflow: hidden;
+    block-size: clamp(20rem, 65vh, 45rem);
+    border: 2px solid $color-border;
+    border-radius: $border-radius;
+    background-color: $color-map-background;
+
+    // to outrank react-zoom-pan-pinch's runtime stylesheet
+    .canvas {
+      inline-size: 100%;
+      block-size: 100%;
+      cursor: grab;
+      touch-action: none; // library uses passive listeners; without this the page scrolls while panning
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    .status {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      padding: 1rem;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+  }
+}

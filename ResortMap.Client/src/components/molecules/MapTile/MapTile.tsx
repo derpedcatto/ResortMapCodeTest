@@ -23,7 +23,7 @@ function MapTileBase({
   const spriteAsset = SPRITES[sprite];
   const isCabana = type === "cabana";
 
-  const label = isCabana
+  const tooltipLabel = isCabana
     ? `Cabana ${coords.row}-${coords.col} is ${booked ? "booked" : "available"}`
     : "";
 
@@ -50,7 +50,9 @@ function MapTileBase({
           className={styles.sprite}
         />
       )}
-      {label && <Tooltip label={label} className={styles.tooltip} />}
+      {tooltipLabel && (
+        <Tooltip label={tooltipLabel} className={styles.tooltip} />
+      )}
     </>
   );
 
@@ -71,7 +73,7 @@ function MapTileBase({
     <button
       type="button"
       onClick={handleClick}
-      aria-label={label}
+      aria-label={tooltipLabel}
       aria-disabled={booked || undefined}
       data-row={coords.row}
       data-col={coords.col}

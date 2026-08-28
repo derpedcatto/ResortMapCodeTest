@@ -1,0 +1,27 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 0 auto;
+
+  // on real app this would take $max-container-width, but 800px makes showcase look better
+  max-width: 800px;
+}
+
+.header {
+  padding-bottom: 1rem;
+
+  @include until(sm) {
+    padding-bottom: 0.2rem;
+  }
+}
+
+.title {
+  text-align: center;
+  font-size: clamp(1.5rem, 8vw, 3rem);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}

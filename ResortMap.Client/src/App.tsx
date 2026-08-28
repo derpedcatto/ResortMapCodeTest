@@ -1,7 +1,8 @@
 import "./App.scss";
+import { BookingPage } from "./pages/BookingPage/BookingPage";
 
 function App() {
-  return <></>;
+  return <BookingPage />;
 }
 
 export default App;

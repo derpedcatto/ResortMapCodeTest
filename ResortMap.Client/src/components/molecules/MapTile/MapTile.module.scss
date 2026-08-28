@@ -19,18 +19,36 @@
 
   &.pool {
     overflow: hidden;
+    background-color: $color-map-pool-overlay;
+    $pool-border: 4px solid $color-map-pool-border;
 
-    &.openTop.openLeft {
-      border-start-start-radius: $border-radius;
+    &.openTop {
+      border-block-start: $pool-border;
+
+      &.openLeft {
+        border-start-start-radius: $border-radius;
+      }
+
+      &.openRight {
+        border-start-end-radius: $border-radius;
+      }
     }
-    &.openTop.openRight {
-      border-start-end-radius: $border-radius;
+    &.openBottom {
+      border-block-end: $pool-border;
+
+      &.openRight {
+        border-end-end-radius: $border-radius;
+      }
+
+      &.openLeft {
+        border-end-start-radius: $border-radius;
+      }
     }
-    &.openBottom.openRight {
-      border-end-end-radius: $border-radius;
+    &.openRight {
+      border-inline-end: $pool-border;
     }
-    &.openBottom.openLeft {
-      border-end-start-radius: $border-radius;
+    &.openLeft {
+      border-inline-start: $pool-border;
     }
   }
 }
@@ -46,14 +64,9 @@
 .cabana {
   cursor: pointer;
 
-  &:focus-visible {
-    outline: 3px solid black;
-    outline-offset: 2px;
-  }
-
   @media (hover: hover) {
     &:hover .sprite {
-      transform: scale($image-hover-scale);
+      transform: scale($icon-hover-scale);
     }
   }
 
