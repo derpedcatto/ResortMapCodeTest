@@ -34,5 +34,20 @@
       text-align: center;
       pointer-events: none;
     }
+
+    .message {
+      border: 1px solid $color-border;
+      border-radius: $border-radius;
+
+      background-color: $color-background;
+      color: $color-text;
+
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.2;
+
+      text-wrap: balance;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
   }
 }

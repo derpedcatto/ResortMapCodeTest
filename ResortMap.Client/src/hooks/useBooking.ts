@@ -22,7 +22,7 @@ export function useAddBooking() {
 
   return useMutation({
     mutationFn: (request: AddBookingRequest) => addBooking(request),
-    onSuccess: () =>
+    onSettled: () =>
       queryClient.invalidateQueries({ queryKey: bookedCabanasKey }),
   });
 }

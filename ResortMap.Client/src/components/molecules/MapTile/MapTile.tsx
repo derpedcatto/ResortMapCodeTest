@@ -1,4 +1,5 @@
 import { TileSprite } from "@/components/atoms/TileSprite/TileSprite";
+import { cabanaLabel } from "@/lib/map/cabanaLabel";
 import { SPRITES } from "@/lib/map/spritesAssets";
 import type { GridCoords, VisualTile } from "@/types/map";
 import { memo } from "react";
@@ -24,7 +25,7 @@ function MapTileBase({
   const isCabana = type === "cabana";
 
   const tooltipLabel = isCabana
-    ? `Cabana ${coords.row}-${coords.col} is ${booked ? "booked" : "available"}`
+    ? `Cabana ${cabanaLabel(coords)} is ${booked ? "booked" : "available"}`
     : "";
 
   const tileClassName = classNames(

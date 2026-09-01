@@ -1,7 +1,7 @@
 .layout {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1rem $gutter;
   margin: 0 auto;
 
   // on real app this would take $max-container-width, but 800px makes showcase look better

@@ -2,4 +2,4 @@
 
 namespace ResortMap.Server.Models;
 
-public record MapCoords([property: Required] int? Row, [property: Required]int? Col);
+public record MapCoords([Required] int? Row, [Required] int? Col);

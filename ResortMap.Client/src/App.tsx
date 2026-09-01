@@ -1,4 +1,3 @@
-import "./App.scss";
 import { BookingPage } from "./pages/BookingPage/BookingPage";
 
 function App() {

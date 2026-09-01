@@ -1,20 +1,3 @@
-// default button style reset
-button {
-  background: transparent;
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-  cursor: pointer;
-
-  font: inherit;
-  color: inherit;
-
-  appearance: none;
-  -webkit-appearance: none;
-}
-
 .button {
   display: flex;
   justify-content: center;
