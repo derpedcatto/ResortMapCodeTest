@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Options;
 using ResortMap.Server.Common;
 
-namespace ResortMap.Server.Providers;
+namespace ResortMap.Server.Infrastructure;
 
-public interface IMapProvider
+public interface IMapFileReader
 {
     string[] GetMapData();
 }
 
-public class MapProvider : IMapProvider
+public class MapFileReader : IMapFileReader
 {
     private readonly string[] _mapData;
 
-    public MapProvider(IOptions<DataFileOptions> options)
+    public MapFileReader(IOptions<DataFileOptions> options)
     {
         _mapData = File.ReadAllLines(options.Value.Map);
     }

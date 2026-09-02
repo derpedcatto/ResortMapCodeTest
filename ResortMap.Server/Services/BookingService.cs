@@ -1,6 +1,6 @@
 ﻿using ResortMap.Server.Common;
+using ResortMap.Server.Infrastructure;
 using ResortMap.Server.Models;
-using ResortMap.Server.Providers;
 
 namespace ResortMap.Server.Services;
 
@@ -10,12 +10,12 @@ public interface IBookingHandler
     Result AddBookedCabana(BookedCabana cabana);
 }
 
-public class BookingService(IBookingProvider bookingProvider, IMapHandler mapHandler)
+public class BookingService(IBookingFileReader bookingProvider, ICabanaReservationsStore cabanaStore, IMapHandler mapHandler)
     : IBookingHandler
 {
     public IReadOnlyList<MapCoords> GetAllBookedCabanas()
     {
-        return bookingProvider.GetBookedCabanas()
+        return cabanaStore.GetAll()
             .Select(bc => bc.Coords)
             .ToList();
     }
@@ -39,7 +39,7 @@ public class BookingService(IBookingProvider bookingProvider, IMapHandler mapHan
             return bookingResult;
         }
 
-        return bookingProvider.TryAddBookedCabana(cabana)
+        return cabanaStore.TryAdd(cabana)
             ? Result.Success()
             : Result.Failure(ErrorCode.CabanaAlreadyBooked);
     }

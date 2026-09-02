@@ -3,25 +3,21 @@ using ResortMap.Server.Common;
 using ResortMap.Server.Models;
 using System.Text.Json;
 
-namespace ResortMap.Server.Providers;
+namespace ResortMap.Server.Infrastructure;
 
-public interface IBookingProvider
+public interface IBookingFileReader
 {
     IReadOnlyList<Booking> GetBookings();
-    IReadOnlyList<BookedCabana> GetBookedCabanas();
-    bool TryAddBookedCabana(BookedCabana cabana);
 }
 
-public class BookingProvider : IBookingProvider
+public class BookingFileReader : IBookingFileReader
 {
     private static readonly JsonSerializerOptions _jsonOptions = 
         new(JsonSerializerDefaults.Web);
-    private readonly Lock _sync = new();
 
     private readonly IReadOnlyList<Booking> _bookings;
-    private readonly List<BookedCabana> _bookedCabanas = [];
 
-    public BookingProvider(IOptions<DataFileOptions> options)
+    public BookingFileReader(IOptions<DataFileOptions> options)
     {
         try
         {
@@ -37,24 +33,4 @@ public class BookingProvider : IBookingProvider
     }
 
     public IReadOnlyList<Booking> GetBookings() => _bookings;
-
-    public IReadOnlyList<BookedCabana> GetBookedCabanas()
-    {
-        lock (_sync)
-        {
-            return _bookedCabanas.ToArray();
-        }
-    }
-
-    public bool TryAddBookedCabana(BookedCabana cabana)
-    {
-        lock (_sync)
-        {
-            if (_bookedCabanas.Any(bc => bc.Coords.Equals(cabana.Coords)))
-                return false;
-
-            _bookedCabanas.Add(cabana);
-            return true;
-        }
-    }
 }

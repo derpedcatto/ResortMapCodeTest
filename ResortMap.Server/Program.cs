@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using ResortMap.Server.Common;
-using ResortMap.Server.Providers;
+using ResortMap.Server.Infrastructure;
 using ResortMap.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,8 +16,9 @@ builder.Services
     .Validate(opts => File.Exists(opts.Bookings), "Bookings file not found.")
     .ValidateOnStart();
 
-builder.Services.AddSingleton<IMapProvider, MapProvider>();
-builder.Services.AddSingleton<IBookingProvider, BookingProvider>();
+builder.Services.AddSingleton<IMapFileReader, MapFileReader>();
+builder.Services.AddSingleton<IBookingFileReader, BookingFileReader>();
+builder.Services.AddSingleton<ICabanaReservationsStore, CabanaReservationsStore>();
 builder.Services.AddScoped<IMapHandler, MapService>();
 builder.Services.AddScoped<IBookingHandler, BookingService>();
 

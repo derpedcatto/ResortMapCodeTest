@@ -1,6 +1,6 @@
 ﻿using ResortMap.Server.Common;
+using ResortMap.Server.Infrastructure;
 using ResortMap.Server.Models;
-using ResortMap.Server.Providers;
 
 namespace ResortMap.Server.Services;
 
@@ -9,7 +9,7 @@ public interface IMapHandler
     Result<Map> GetMap();
 }
 
-public class MapService(IMapProvider mapProvider) : IMapHandler
+public class MapService(IMapFileReader mapProvider) : IMapHandler
 {
     public Result<Map> GetMap()
     {
