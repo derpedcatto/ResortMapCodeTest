@@ -7,7 +7,7 @@ namespace ResortMap.Server.Infrastructure;
 
 public interface IBookingFileReader
 {
-    IReadOnlyList<Booking> GetBookings();
+    Result<IReadOnlyList<Booking>> GetBookings();
 }
 
 public class BookingFileReader : IBookingFileReader
@@ -15,22 +15,26 @@ public class BookingFileReader : IBookingFileReader
     private static readonly JsonSerializerOptions _jsonOptions = 
         new(JsonSerializerDefaults.Web);
 
-    private readonly IReadOnlyList<Booking> _bookings;
+    private readonly IReadOnlyList<Booking>? _bookings;
+    private readonly bool _loadFailed;
 
     public BookingFileReader(IOptions<DataFileOptions> options)
     {
         try
         {
             using var stream = File.OpenRead(options.Value.Bookings);
-            _bookings = JsonSerializer.Deserialize<Booking[]>(stream, _jsonOptions)
-                ?? throw new InvalidOperationException("Bookings file deserialized to null.");
-        }
-        catch (JsonException ex)
+            _bookings = JsonSerializer.Deserialize<Booking[]>(stream, _jsonOptions);
+            _loadFailed = _bookings == null;
+        } catch (Exception)
         {
-            throw new InvalidOperationException(
-                $"Bookings file is not valid JSON: {options.Value.Bookings}", ex);
+            _loadFailed = true;
         }
     }
 
-    public IReadOnlyList<Booking> GetBookings() => _bookings;
+    public Result<IReadOnlyList<Booking>> GetBookings()
+    {
+        return _loadFailed
+            ? Result<IReadOnlyList<Booking>>.Failure(ErrorCode.BookingsFileInvalid)
+            : Result<IReadOnlyList<Booking>>.Success(_bookings!);
+    }
 }

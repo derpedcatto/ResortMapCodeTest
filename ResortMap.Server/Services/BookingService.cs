@@ -57,7 +57,13 @@ public class BookingService(IBookingFileReader bookingProvider, ICabanaReservati
 
     private Result ValidateBooking(Booking booking)
     {
-        var bookingExists = bookingProvider.GetBookings()
+        var bookingResult = bookingProvider.GetBookings();
+        if (!bookingResult.IsSuccess)
+        {
+            return Result.Failure(bookingResult.Error!.Value);
+        }
+
+        var bookingExists = bookingResult.Value!
             .Any(storedBooking => BookingsMatch(storedBooking, booking));
 
         return bookingExists

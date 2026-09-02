@@ -52,9 +52,6 @@ try
 }
 catch (OptionsValidationException ex)
 {
-    var logger = app.Services.GetService<ILogger<Program>>();
-    logger?.LogCritical(ex, "Application startup failed");
     Console.Error.WriteLine($"Startup failed: {ex.Message}");
-
     Environment.ExitCode = 1;
 }

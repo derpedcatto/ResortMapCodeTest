@@ -10,6 +10,7 @@ public enum ErrorCode
     InvalidBookingRequest,
 
     MapFileInvalid,
+    BookingsFileInvalid,
 
     InternalError,
 }
@@ -47,6 +48,12 @@ public static class ErrorCodeExtensions
             Status = StatusCodes.Status500InternalServerError,
             Title = "Internal server error",
             Detail = "Resort map is invalid.",
+        },
+        ErrorCode.BookingsFileInvalid => new()
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Internal server error",
+            Detail = "Bookings file is invalid.",
         },
         ErrorCode.InternalError => new()
         {
