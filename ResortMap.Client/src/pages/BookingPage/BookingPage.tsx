@@ -79,7 +79,9 @@ export function BookingPage() {
             pending={addBooking.isPending}
             error={addBooking.error?.message ?? null}
             onSubmit={handleSubmit}
-            onClose={() => setSelected(null)}
+            onClose={() => {
+              if (!addBooking.isPending) setSelected(null);
+            }}
           />
         )
       }
