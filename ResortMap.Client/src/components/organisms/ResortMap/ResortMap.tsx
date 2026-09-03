@@ -112,6 +112,7 @@ function ZoomControls() {
   const { instance, zoomIn, zoomOut, resetTransform, centerView } =
     useControls();
   const [scale, setScale] = useState(instance.state.scale);
+  const lastWidth = useRef(window.innerWidth);
 
   useTransformEffect(({ state }) => {
     setScale(state.scale);
@@ -122,6 +123,9 @@ function ZoomControls() {
     let timeoutId: ReturnType<typeof setTimeout>;
 
     function handleResize() {
+      if (window.innerWidth === lastWidth.current) return;
+      lastWidth.current = window.innerWidth;
+
       clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
