@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { cabanaLabel } from "@/lib/map/cabanaLabel";
 import { BookingLayout } from "@/components/templates/BookingLayout/BookingLayout";
 import { BookingModal } from "@/components/organisms/BookingModal/BookingModal";
@@ -28,11 +28,14 @@ export function BookingPage() {
     return () => clearTimeout(id);
   }, [justBooked]);
 
-  function handleSelectCabana(coords: GridCoords) {
-    // drop the result of the previous booking before the form opens again
-    addBooking.reset();
-    setSelected(coords);
-  }
+  const handleSelectCabana = useCallback(
+    (coords: GridCoords) => {
+      // drop the result of the previous booking before the form opens again
+      addBooking.reset();
+      setSelected(coords);
+    },
+    [addBooking],
+  );
 
   function handleSubmit(booking: Booking) {
     if (!selected) return;
