@@ -26,6 +26,9 @@ public class MapService(IMapFileReader mapProvider) : IMapHandler
         if (grid.Length == 0 || MapSymbol.HasIllegalSymbols(grid))
             return Result<Map>.Failure(ErrorCode.MapFileInvalid);
 
+        if (grid.Any(row => row.Length != grid[0].Length))
+            return Result<Map>.Failure(ErrorCode.MapFileInvalid);
+
         return Result<Map>.Success(new Map(grid));
     }
 }
