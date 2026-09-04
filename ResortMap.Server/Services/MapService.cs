@@ -4,12 +4,12 @@ using ResortMap.Server.Models;
 
 namespace ResortMap.Server.Services;
 
-public interface IMapHandler
+public interface IMapService
 {
     Result<Map> GetMap();
 }
 
-public class MapService(IMapFileReader mapProvider) : IMapHandler
+public class MapService(IMapFileReader mapProvider) : IMapService
 {
     public Result<Map> GetMap()
     {

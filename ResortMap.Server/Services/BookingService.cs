@@ -10,7 +10,7 @@ public interface IBookingHandler
     Result AddBookedCabana(BookedCabana cabana);
 }
 
-public class BookingService(IBookingFileReader bookingProvider, ICabanaReservationsStore cabanaStore, IMapHandler mapHandler)
+public class BookingService(IBookingFileReader bookingProvider, ICabanaReservationsStore cabanaStore, IMapService mapHandler)
     : IBookingHandler
 {
     public IReadOnlyList<MapCoords> GetAllBookedCabanas()

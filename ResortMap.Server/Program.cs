@@ -19,7 +19,7 @@ builder.Services
 builder.Services.AddSingleton<IMapFileReader, MapFileReader>();
 builder.Services.AddSingleton<IBookingFileReader, BookingFileReader>();
 builder.Services.AddSingleton<ICabanaReservationsStore, CabanaReservationsStore>();
-builder.Services.AddScoped<IMapHandler, MapService>();
+builder.Services.AddScoped<IMapService, MapService>();
 builder.Services.AddScoped<IBookingHandler, BookingService>();
 
 builder.Services.AddProblemDetails();
@@ -55,3 +55,5 @@ catch (OptionsValidationException ex)
     Console.Error.WriteLine($"Startup failed: {ex.Message}");
     Environment.ExitCode = 1;
 }
+
+public partial class Program { }
