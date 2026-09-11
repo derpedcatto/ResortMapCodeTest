@@ -18,8 +18,9 @@ export function BookingPage() {
   const [selected, setSelected] = useState<GridCoords | null>(null);
   const [justBooked, setJustBooked] = useState<GridCoords | null>(null);
 
+  const { reset: resetBooking } = addBooking;
+
   const isLoading = mapQuery.isPending || bookedQuery.isPending;
-  const loadError = mapQuery.error ?? bookedQuery.error;
 
   useEffect(() => {
     if (!justBooked) return;
@@ -31,10 +32,10 @@ export function BookingPage() {
   const handleSelectCabana = useCallback(
     (coords: GridCoords) => {
       // drop the result of the previous booking before the form opens again
-      addBooking.reset();
+      resetBooking();
       setSelected(coords);
     },
-    [addBooking],
+    [resetBooking],
   );
 
   function handleSubmit(booking: Booking) {
@@ -52,8 +53,12 @@ export function BookingPage() {
   }
 
   function statusText(): string | null {
-    if (loadError) return `Could not load the resort map. ${loadError.message}`;
-    if (isLoading) return "Loading the resort map…";
+    if (mapQuery.error)
+      return `Could not load the resort map. ${mapQuery.error.message}`;
+    if (bookedQuery.error)
+      return `Could not load bookings. ${bookedQuery.error.message}`;
+
+    if (isLoading) return "Loading the resort map...";
     if (justBooked) {
       return `Cabana ${cabanaLabel(justBooked)} is booked.`;
     }

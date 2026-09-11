@@ -19,7 +19,7 @@ function MapGridBase({
   className,
 }: MapGridProps) {
   const rows = tiles.length;
-  const cols = tiles[0].length;
+  const cols = tiles[0]?.length ?? 0;
 
   const gridStyle = {
     "--map-rows": rows,

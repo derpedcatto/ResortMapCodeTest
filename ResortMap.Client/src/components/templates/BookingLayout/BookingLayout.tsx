@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import classNames from "classnames";
 import styles from "./BookingLayout.module.scss";
 
@@ -15,13 +15,17 @@ export function BookingLayout({
   title,
   className,
 }: BookingLayoutProps) {
+  const inert = Boolean(modal);
+
   return (
     <div className={classNames(styles.layout, className)}>
-      <header className={styles.header}>
+      <header className={styles.header} inert={inert}>
         <h1 className={styles.title}>{title}</h1>
       </header>
 
-      <main className={styles.main}>{map}</main>
+      <main className={styles.main} inert={inert}>
+        {map}
+      </main>
 
       {modal}
     </div>
