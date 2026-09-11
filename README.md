@@ -54,15 +54,15 @@ For simple apps, I would keep it simple; architecture like this isn't needed eve
 
 ### Frontend
 
-I'm used to Atomic Design, so I structured the app around it (for me personally, it works pretty well for building in React!). I'm also a fan of SCSS and Modules, especially the setup that you can create with mixins and class extensions. Modern CSS is pretty capable now, but SCSS still has better support for older browsers, so that's a bonus point for it.
+I'm used to Atomic Design, so I structured the app around it (for me personally, it works pretty well for building in React!). I'm also a fan of SCSS and Modules, especially the setup that you can create with mixins and class extensions. Modern CSS is pretty capable now, but SCSS still has better support for older browsers, so that's a bonus point for it. I omited CSS Layers for simplicity though, but I would add it in a serious project.
 
 I'd say that the biggest pain point of this whole project was writing client tests. I think they came out somewhat rough and would definitely benefit from a more senior look or involvement. Writing tests overall is a struggle for me for some reason, even though I see clear benefits in them. Well, I guess I will get around to them with time.
 
 Other potential problems or things I'd improve:
 
 - The client doesn't validate the map that gets sent from the server and assumes that the passed data is always correct, as the server would outright discard any invalid map. I don't know if it's a problem per se — it was just my decision to have it like that, that's why there are no additional checks in Client;
+  I did not add elaborate error descriptions to display;
 - I did not add any fallback CSS (but I was not using many modern features, so it should be fine);
 - Accessibility is a bit barebones;
-- I omited CSS Layers for simplicity, but I would add it in a serious project.
-- Not related to Client specifically, but some commits got pretty big with a lot of changes, I should've separated them.
-- Pool image is unused, as I couldn't find a use for it. Only water sprite is used. I thought about having a calculation, where it would draw pool sprite over water if there is enough space to place it, but I spent time coding elsewhere.
+- Pool image is unused, as I couldn't find a use for it. Only water sprite is used. I thought about having a calculation, where it would draw pool sprite over water if there is enough space to place it, but I spent time coding elsewhere;
+- Not related to Client specifically, but some commits got pretty big with a lot of changes, I should've separated them;
