@@ -1,13 +1,13 @@
 import type { GridCoords } from "@/types/map";
-import { apiRequest } from "./apiClient";
 import type { AddBookingRequest } from "@/types/booking";
+import { http } from "./http";
 
 export function fetchBookedCabanas(
   signal?: AbortSignal,
 ): Promise<GridCoords[]> {
-  return apiRequest<GridCoords[]>("/api/booking", { signal });
+  return http.get("/api/booking", { signal }).json<GridCoords[]>();
 }
 
-export function addBooking(request: AddBookingRequest): Promise<void> {
-  return apiRequest<void>("/api/booking", { method: "POST", body: request });
+export async function addBooking(request: AddBookingRequest): Promise<void> {
+  await http.post("/api/booking", { json: request });
 }

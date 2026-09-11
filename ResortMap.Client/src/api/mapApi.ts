@@ -1,6 +1,6 @@
 import type { ResortMapDto } from "@/types/map";
-import { apiRequest } from "./apiClient";
+import { http } from "./http";
 
 export function fetchMap(signal?: AbortSignal): Promise<ResortMapDto> {
-  return apiRequest<ResortMapDto>("/api/map", { signal });
+  return http.get("/api/map", { signal }).json<ResortMapDto>();
 }
