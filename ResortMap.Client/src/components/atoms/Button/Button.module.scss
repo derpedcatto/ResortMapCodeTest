@@ -1,0 +1,29 @@
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background-color: $color-primary;
+  color: $color-background;
+
+  @include hover(background-color, $color-accent, $transition-duration);
+}
+
+.secondary {
+  background-color: $color-secondary;
+  color: $color-text;
+
+  @include hover(
+    background-color,
+    color-mix(in oklab, $color-secondary, black 8%),
+    $transition-duration
+  );
+}

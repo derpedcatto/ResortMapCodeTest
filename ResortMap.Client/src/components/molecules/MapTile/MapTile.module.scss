@@ -1,0 +1,82 @@
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  inline-size: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+
+  &:is(:hover, :focus-visible) {
+    z-index: 2;
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &.pool {
+    overflow: hidden;
+    background-color: $color-map-pool-overlay;
+    $pool-border: 4px solid $color-map-pool-border;
+
+    &.openTop {
+      border-block-start: $pool-border;
+
+      &.openLeft {
+        border-start-start-radius: $border-radius;
+      }
+
+      &.openRight {
+        border-start-end-radius: $border-radius;
+      }
+    }
+    &.openBottom {
+      border-block-end: $pool-border;
+
+      &.openRight {
+        border-end-end-radius: $border-radius;
+      }
+
+      &.openLeft {
+        border-end-start-radius: $border-radius;
+      }
+    }
+    &.openRight {
+      border-inline-end: $pool-border;
+    }
+    &.openLeft {
+      border-inline-start: $pool-border;
+    }
+  }
+}
+
+.tooltip {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity $transition-duration ease-out,
+    visibility $transition-duration;
+}
+
+.cabana {
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover .sprite {
+      transform: scale($icon-hover-scale);
+    }
+  }
+
+  &.booked {
+    cursor: not-allowed;
+
+    .sprite {
+      filter: grayscale(1);
+      opacity: 0.5;
+      transform: none;
+    }
+  }
+}

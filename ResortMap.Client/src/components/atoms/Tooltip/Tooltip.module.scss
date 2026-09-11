@@ -1,0 +1,21 @@
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: 1;
+  translate: -50% -0.5rem;
+  padding: 0.25rem 0.5rem;
+
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+
+  background-color: $color-background;
+  color: $color-text;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  font-size: 0.8rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}

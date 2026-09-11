@@ -1,23 +1,59 @@
+using Microsoft.Extensions.Options;
+using ResortMap.Server.Common;
+using ResortMap.Server.Infrastructure;
+using ResortMap.Server.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services
+    .AddOptions<DataFileOptions>()
+    .Configure<IConfiguration>((opts, config) =>
+    {
+        opts.Map = config["map"] ?? opts.Map;
+        opts.Bookings = config["bookings"] ?? opts.Bookings;
+    })
+    .Validate(opts => File.Exists(opts.Map), "Map file not found.")
+    .Validate(opts => File.Exists(opts.Bookings), "Bookings file not found.")
+    .ValidateOnStart();
+
+builder.Services.AddSingleton<IMapFileReader, MapFileReader>();
+builder.Services.AddSingleton<IBookingFileReader, BookingFileReader>();
+builder.Services.AddSingleton<ICabanaReservationsStore, CabanaReservationsStore>();
+builder.Services.AddScoped<IMapService, MapService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (OptionsValidationException ex)
+{
+    Console.Error.WriteLine($"Startup failed: {ex.Message}");
+    Environment.ExitCode = 1;
+}
+
+public partial class Program { }

@@ -1,0 +1,27 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+
+  @include hover(background-color, $color-secondary, $transition-duration);
+
+  &:active {
+    background-color: $color-primary;
+  }
+
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    transform: none;
+
+    svg {
+      opacity: 0.3;
+    }
+  }
+}
+
+.label {
+  @include visually-hidden;
+}

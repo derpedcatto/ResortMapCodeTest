@@ -1,0 +1,19 @@
+.grid {
+  --tile-size: 3rem;
+
+  display: grid;
+  grid-template-columns: repeat(var(--map-cols), var(--tile-size));
+  grid-auto-rows: var(--tile-size);
+
+  border-radius: $border-radius;
+  background-color: $color-map-background;
+  background-image: var(--map-background);
+  background-size: cover;
+  background-position: center;
+
+  user-select: none;
+
+  @include until(sm) {
+    --tile-size: 2rem;
+  }
+}

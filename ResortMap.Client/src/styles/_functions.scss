@@ -1,0 +1,9 @@
+@use "sass:map";
+@use "variables";
+
+@function bp($name) {
+  @if not map.has-key(variables.$breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Available: #{map.keys(variables.$breakpoints)}.';
+  }
+  @return map.get(variables.$breakpoints, $name);
+}
