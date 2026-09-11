@@ -7,7 +7,7 @@ namespace ResortMap.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BookingController(IBookingHandler bookingHandler) : ControllerBase
+public class BookingController(IBookingService bookingHandler) : ControllerBase
 {
     [HttpGet]
     public ActionResult<IReadOnlyList<MapCoords>> GetAllBookedCabanas()

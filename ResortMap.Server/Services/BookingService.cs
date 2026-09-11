@@ -4,14 +4,14 @@ using ResortMap.Server.Models;
 
 namespace ResortMap.Server.Services;
 
-public interface IBookingHandler
+public interface IBookingService
 {
     IReadOnlyList<MapCoords> GetAllBookedCabanas();
     Result AddBookedCabana(BookedCabana cabana);
 }
 
 public class BookingService(IBookingFileReader bookingProvider, ICabanaReservationsStore cabanaStore, IMapService mapHandler)
-    : IBookingHandler
+    : IBookingService
 {
     public IReadOnlyList<MapCoords> GetAllBookedCabanas()
     {

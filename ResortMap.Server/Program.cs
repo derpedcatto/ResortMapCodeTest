@@ -20,7 +20,7 @@ builder.Services.AddSingleton<IMapFileReader, MapFileReader>();
 builder.Services.AddSingleton<IBookingFileReader, BookingFileReader>();
 builder.Services.AddSingleton<ICabanaReservationsStore, CabanaReservationsStore>();
 builder.Services.AddScoped<IMapService, MapService>();
-builder.Services.AddScoped<IBookingHandler, BookingService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
